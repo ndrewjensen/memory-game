@@ -10,16 +10,17 @@ let faceUp = 0;
 const scorediv = document.querySelector('#score');
 let score = 0;
 
-const lowscorediv = document.querySelector('#lowscore');
+const lowscoretext = document.querySelector('#lowscore');
 let lowscore = 0;
 
 const restart = document.querySelector('#shuffle');
+
+const lowscorecard = document.querySelector('#lowscorecard');
 
 const difficultyinput = document.querySelector('#colornumber');
 let difficulty = 5;
 function updatedifficulty() {
   difficulty = difficultyinput.value;
-  console.log(difficulty);
   return difficulty;
 }
 
@@ -29,24 +30,35 @@ function update() {
   createcolorarray();
   createCards(colors);
   score = 0;
+  scorediv.innerText = score;
+
 }
 
 //reset board and low score each time difficulty is adjusted
 
-difficultyinput.addEventListener('keyup', function(e) {
-  e.preventDefault();
-  update();
-  lowscore = 0;
-  score = 0;
-  scorediv.innerText = score;
-});
-difficultyinput.addEventListener('click', function(e) {
-  e.preventDefault();
-  update();
-  lowscore = 0;
-  score = 0;
-  scorediv.innerText = score;
-});
+['keyup','click'].forEach(function(e){
+  difficultyinput.addEventListener(e,function(e){
+    e.preventDefault();
+    update();
+    lowscore = 0;
+    lowscoretext.innerText = score;
+  })
+
+})
+
+// difficultyinput.addEventListener('keyup', function(e) {
+//   e.preventDefault();
+//   update();
+//   lowscore = 0;
+//   lowscoretext.innerText = score;
+
+// });
+// difficultyinput.addEventListener('click', function(e) {
+//   e.preventDefault();
+//   update();
+//   lowscore = 0;
+//   lowscoretext.innerText = score;
+// });
 
 //Generate Random Colors
 function randomRGB() {
@@ -67,18 +79,16 @@ function createcolorarray() {
     COLORS.push(currentcolor);
   }
   colors = shuffle(COLORS);
-  console.log(colors.length);
 }
 // createcolorarray();
 // createCards(colors);
 
 //clear all cards
 function clearall(){
-  console.log('clearall is firing')
   let i = 0;
   for (let i = 0; i<colors.length; i++) {
     game.children[0].remove();
-    console.log(game.children)
+
   }
 }
 
@@ -156,6 +166,9 @@ function handleCardClick(evt) {
         for (let i = 1; i>=0; i--) {
           active[i].setAttribute('class','card ' +active[0].classList[1] + ' found');
         }
+        for(let each of document.getElementsByClassName('found')) {
+          each.style.borderRadius = '50px';
+        }
 
         //flip to face down if color class doesn't match
       } else {
@@ -175,14 +188,30 @@ game.addEventListener('click', function(evt) {
   }
   //upon winning
   if (document.getElementsByClassName('found').length === colors.length) {
-    console.log('winning is firing');
+
     setTimeout(function() {
-      if (score < lowscore || lowscore === 0) {
-        lowscore = score;
-        lowscorediv.innerText = lowscore;
-      }
-      document.querySelector('#startgame').innerText = " AGAIN!"
+
+    //transform Play again button
+    document.querySelector('#startgame').innerText = " AGAIN!";
+    restart.setAttribute('style','border-radius: 50px; background-color: rgb(99, 217, 186);');
+
+
+      //if new low score then transform play button
+    if (score < lowscore || lowscore === 0) {
+      lowscore = score;
+      lowscoretext.innerText = lowscore;
+      lowscorecard.setAttribute('style','border-radius: 50px; background-color: rgb(99, 217, 186);');
+    }
+
     },500);
+
+    //transform play and lowscore back to default
+    setTimeout(function() {
+      restart.setAttribute('style',"");
+      lowscorecard.setAttribute('style','');
+      },4000);
+
+
   }
 })
 
@@ -198,15 +227,3 @@ cheat.addEventListener('click', function(){
     card.classList.add('found');
   }
 })
-
-
-
-// setInterval(function() {
-//   for (let letter of letters) {
-//     letter.style.color = randomRGB();
-//   }
-// }, 500);
-
-// setInterval(function() {
-//     submitbutton.setAttribute('style','color:'+randomRGB()+';');
-// }, 2000);

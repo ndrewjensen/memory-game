@@ -6,6 +6,7 @@
 
 html {
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif
 }
 
 body{
@@ -24,7 +25,7 @@ main {
 
 #toprow {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: center;
   align-content: center;
 }
@@ -35,7 +36,7 @@ main {
   justify-content: center;
 }
 
-#game div, .toprow {
+#game div{
   border: 1px solid black;
   border-radius: 15px;
   width: 100px;
@@ -43,26 +44,57 @@ main {
   margin: 20px;
   display: inline-block;
   background-color: white;
-  transition: background-color 500ms;
+  transition: all 500ms;
 }
 
 .toprow {
-
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+  display: inline-block;
+  background-color: white;
+  transition: background-color 200ms;
   align-content: flex-start;
   box-sizing: border-box;
   padding: 5px;
   text-align: center;
   background-color: white;
+  min-width: 100px;
+}
+
+#shuffle, #lowscorecard {
+  transition: all 1000ms;
+}
+
+#shuffle:hover  {
+  border-radius: 50px;
+  background-color: rgb(99, 217, 186);
+  transition: all 1000ms;
 }
 
 [type='number'] {
   width: 50px;
   text-align: center;
+  border-radius: 15px;
+  transition: all 500ms;
+}
+
+[type='number']:hover {
+  border-radius: 35px;
+  background-color: rgb(99, 217, 186);
+  transition: all 500ms;
 }
 
 #cheat {
   position: fixed;
   bottom: 0px;
+  border: black solid 1px;
+  background-color: white;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 5px;
 }
 
 
