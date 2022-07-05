@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Memory Game!</title>
+  <link rel="stylesheet" href="memory-game.css"/>
+</head>
+<body>
+
+<h1>Memory Game!</h1>
+
+<main>
+
+  <div id="toprow">
+    <div id='shuffle' class="card toprow">
+      <p>Shuffle and Play<span id="startgame">!<br></span><br></p>
+    </div>
+
+    <div id="difficulty" class="card toprow">
+      <form>
+        <label for="number"><br> How Many Colors?</label>
+        <input type="number" id='colornumber' min="5" max="25" value="" placeholder='5'>
+      </form>
+    </div>
+
+    <div class='card toprow'>
+      <p>Low <br> Score: <br><span id="lowscore">0</span> </p>
+    </div>
+    <div class='card toprow'>
+      <p>Current Score: <br><span id="score">0<br></span></p>
+    </div>
+  </div>
+
+  <div id="game"></div>
+
+
+
+
+</main>
+
+<!-- Use this button to troubleshoot behavior after game is won -->
+<div id="cheat">Reveal</div>
+
+<script src="memory-game.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+/* you can add to or change this. */
+
+/* * {
+  border: red 1px solid;
+} */
+
+html {
+  box-sizing: border-box;
+}
+
+body{
+  background-color:lightblue;;
+}
+
+h1 {
+  text-align: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#toprow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+}
+
+#game, .toprow {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+#game div, .toprow {
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+  display: inline-block;
+  background-color: white;
+  transition: background-color 500ms;
+}
+
+.toprow {
+
+  align-content: flex-start;
+  box-sizing: border-box;
+  padding: 5px;
+  text-align: center;
+  background-color: white;
+}
+
+[type='number'] {
+  width: 50px;
+  text-align: center;
+}
+
+#cheat {
+  position: fixed;
+  bottom: 0px;
+}
+
+
