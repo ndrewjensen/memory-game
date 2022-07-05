@@ -95,6 +95,9 @@ main {
   border-radius: 15px;
   padding: 10px;
   margin: 5px;
+
+  /* Remove this to use the reveal button */
+  display: none;
 }
 
 
