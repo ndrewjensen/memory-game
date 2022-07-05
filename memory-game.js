@@ -1,55 +1,44 @@
 "use strict";
-
 /** Memory game: find matching pairs of cards and flip both of them. */
-const game = document.querySelector('#game');
-const FOUND_MATCH_WAIT_MSECS = 1000;
-
-let active = game.getElementsByClassName('faceup');
-let faceUp = 0;
-
-const scorediv = document.querySelector('#score');
-let score = 0;
-
-const lowscoretext = document.querySelector('#lowscore');
-let lowscore = 0;
-
-const restart = document.querySelector('#shuffle');
-
-const lowscorecard = document.querySelector('#lowscorecard');
-
-const difficultyinput = document.querySelector('#colornumber');
-let difficulty = 5;
 
 
+//define some variables as html elements and initialize some values that exist in the global scope
 
+
+  const game = document.querySelector('#game');
+  const FOUND_MATCH_WAIT_MSECS = 1000;
+
+  let active = game.getElementsByClassName('faceup');
+  let faceUp = 0;
+
+  const scorediv = document.querySelector('#score');
+  let score = 0;
+
+  const lowscoretext = document.querySelector('#lowscore');
+  let lowscore = 0;
+
+  const restart = document.querySelector('#shuffle');
+
+  const lowscorecard = document.querySelector('#lowscorecard');
+
+  const difficultyinput = document.querySelector('#colornumber');
+  let difficulty = 5;
+
+  let colors=[];
+
+
+
+//FUNCTIONS
+
+
+//resets all the cards and variables
 function update() {
   updatedifficulty(); //updates
   clearall(); //deletes all cards
   createcolorarray(); //creates new randomized array of colors
   createCards(colors);  //creates the cards and adds them to page
   updatescore(); //reset score variable and score on page to zero
-
 }
-
-
-
-// difficultyinput.addEventListener('keyup', function(e) {
-//   e.preventDefault();
-//   update();
-//   lowscore = 0;
-//   lowscoretext.innerText = score;
-
-// });
-// difficultyinput.addEventListener('click', function(e) {
-//   e.preventDefault();
-//   update();
-//   lowscore = 0;
-//   lowscoretext.innerText = score;
-// });
-
-
-//FUNCTIONS
-
 
 //Generate Random Colors
 function randomRGB() {
@@ -60,7 +49,6 @@ function randomRGB() {
 }
 
 //creat array of random colors
-let colors=[];
 function createcolorarray() {
   let COLORS = []
   for (let i= 0; i<difficulty; i++) {
