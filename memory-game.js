@@ -164,6 +164,11 @@ function handleCardClick(evt) {
 //LISTENING EVENTS
 
 
+//don't reload page when pressing enter in difficulty input form
+document.querySelector("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+});
+
 //reset board and low score each time difficulty is adjusted
 ['keyup','click'].forEach(function(e){
   difficultyinput.addEventListener(e,function(e){
@@ -172,7 +177,6 @@ function handleCardClick(evt) {
     updatelowscore();
   })
 })
-
 
 //card click
 game.addEventListener('click', function(evt) {
