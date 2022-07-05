@@ -19,32 +19,19 @@ const lowscorecard = document.querySelector('#lowscorecard');
 
 const difficultyinput = document.querySelector('#colornumber');
 let difficulty = 5;
-function updatedifficulty() {
-  difficulty = difficultyinput.value;
-  return difficulty;
-}
+
+
 
 function update() {
-  updatedifficulty();
-  clearall();
-  createcolorarray();
-  createCards(colors);
-  score = 0;
-  scorediv.innerText = score;
+  updatedifficulty(); //updates
+  clearall(); //deletes all cards
+  createcolorarray(); //creates new randomized array of colors
+  createCards(colors);  //creates the cards and adds them to page
+  updatescore(); //reset score variable and score on page to zero
 
 }
 
-//reset board and low score each time difficulty is adjusted
 
-['keyup','click'].forEach(function(e){
-  difficultyinput.addEventListener(e,function(e){
-    e.preventDefault();
-    update();
-    lowscore = 0;
-    lowscoretext.innerText = score;
-  })
-
-})
 
 // difficultyinput.addEventListener('keyup', function(e) {
 //   e.preventDefault();
@@ -60,6 +47,10 @@ function update() {
 //   lowscoretext.innerText = score;
 // });
 
+
+//FUNCTIONS
+
+
 //Generate Random Colors
 function randomRGB() {
   const red = Math.floor(Math.random() * 256);
@@ -69,8 +60,7 @@ function randomRGB() {
 }
 
 //creat array of random colors
-let colors = [];
-
+let colors=[];
 function createcolorarray() {
   let COLORS = []
   for (let i= 0; i<difficulty; i++) {
@@ -80,50 +70,49 @@ function createcolorarray() {
   }
   colors = shuffle(COLORS);
 }
-// createcolorarray();
-// createCards(colors);
-
-//clear all cards
-function clearall(){
-  let i = 0;
-  for (let i = 0; i<colors.length; i++) {
-    game.children[0].remove();
-
-  }
-}
-
 
 /** Shuffle array items in-place and return shuffled array. */
 function shuffle(items) {
-  // This algorithm does a "perfect shuffle", where there won't be any
-  // statistical bias in the shuffle (many naive attempts to shuffle end up not
-  // be a fair shuffle). This is called the Fisher-Yates shuffle algorithm; if
-  // you're interested, you can learn about it, but it's not important.
-
   for (let i = items.length - 1; i > 0; i--) {
     // generate a random index between 0 and i
     let j = Math.floor(Math.random() * i);
     // swap item at i <-> item at j
     [items[i], items[j]] = [items[j], items[i]];
   }
-
   return items;
 }
 
-/** Create card for every color in colors (each will appear twice)
- *
- * Each div DOM element will have:
- * - a class with the value of the color
- * - a click event listener for each card to handleCardClick
- */
+//remove all the cards from the site
+function clearall(){
+  let i = 0;
+  for (let i = 0; i<colors.length; i++) {
+    game.children[0].remove();
+  }
+}
 
+//update
+function updatedifficulty() {
+  difficulty = difficultyinput.value;
+  return difficulty;
+}
+
+function updatescore(){
+  score = 0; //reset score
+  scorediv.innerText = score; // update 0 score on page
+}
+
+function updatelowscore(){
+  lowscore = 0;
+  lowscoretext.innerText = score;
+}
+
+//create the cards and add them to the page
 function createCards(colors) {
   for (let color of colors) {
     let wipdiv = document.createElement('div');
     wipdiv.classList.add('card');
     wipdiv.classList.add(color);
     game.append(wipdiv);
-
   }
 }
 
@@ -134,7 +123,6 @@ function flipCard(evt) {
     faceUp = active.length;
     score ++;
     scorediv.innerText = score;
-
 }
 
 /** Flip a card face-down. */
@@ -150,14 +138,19 @@ function unFlipCard() {
 
 /** Handle clicking on a card: this could be first-card or second-card. */
 function handleCardClick(evt) {
+
+  //if the game is finished, take no action
   if (document.getElementsByClassName('found').length === colors.length) {
     return
   }
   let active = game.getElementsByClassName('faceup');
   faceUp = active.length;
+
+  //first card
   if (faceUp === 0) {
     flipCard(evt);
 
+  //second card (do nothing if two cards are already face up)
   } else if (faceUp === 1) {
     flipCard(evt);
 
@@ -177,11 +170,23 @@ function handleCardClick(evt) {
         },1000);
       }
   }
-
-
-
 }
 
+
+//LISTENING EVENTS
+
+
+//reset board and low score each time difficulty is adjusted
+['keyup','click'].forEach(function(e){
+  difficultyinput.addEventListener(e,function(e){
+    e.preventDefault();
+    update();
+    updatelowscore();
+  })
+})
+
+
+//card click
 game.addEventListener('click', function(evt) {
   if (evt.target.classList[0] === 'card') {
     handleCardClick(evt);
@@ -191,10 +196,9 @@ game.addEventListener('click', function(evt) {
 
     setTimeout(function() {
 
-    //transform Play again button
+    //transform 'Play Again' button
     document.querySelector('#startgame').innerText = " AGAIN!";
     restart.setAttribute('style','border-radius: 50px; background-color: rgb(99, 217, 186);');
-
 
       //if new low score then transform play button
     if (score < lowscore || lowscore === 0) {
@@ -202,7 +206,6 @@ game.addEventListener('click', function(evt) {
       lowscoretext.innerText = lowscore;
       lowscorecard.setAttribute('style','border-radius: 50px; background-color: rgb(99, 217, 186);');
     }
-
     },500);
 
     //transform play and lowscore back to default
@@ -210,18 +213,18 @@ game.addEventListener('click', function(evt) {
       restart.setAttribute('style',"");
       lowscorecard.setAttribute('style','');
       },4000);
-
-
   }
 })
 
+//click play again butto
 restart.addEventListener('click',function (evt){
   update();
   })
 
+//button to reveal all the tiles, helps with troubleshooting behavior after the game is finished. This button has a hidden class in CSS that should be commented out to make it usable.
 
-const cheat = document.querySelector('#cheat');
 cheat.addEventListener('click', function(){
+  const cheat = document.querySelector('#cheat');
   for (let card of game.children) {
     card.style.backgroundColor = card.classList[1];
     card.classList.add('found');
